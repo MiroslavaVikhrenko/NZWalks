@@ -53,7 +53,7 @@ namespace NZWalks.API.Controllers
         // GET: https://localhost:portnumber/api/regions/{id}
         [HttpGet]
         [Route("{id:Guid}")] //'id' in attribute MUST match the name of input parameter passed to the method for proper mapping
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             //Get Region Domain Model from the db
 
@@ -63,7 +63,7 @@ namespace NZWalks.API.Controllers
 
             //Second option using dbContext.Regions.FirstOrDefault(x => x.Id == id)
             //you can do this for id or using other properties (Name, Code, etc) BUT only if you are passing those in the route
-            var regionDomain = dbContext.Regions.FirstOrDefault(x => x.Id == id); 
+            var regionDomain = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id); 
 
             if (regionDomain == null)
             {
