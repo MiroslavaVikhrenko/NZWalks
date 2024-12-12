@@ -52,7 +52,7 @@ namespace NZWalks.API.Controllers
         // GET: https://localhost:portnumber/api/regions/{id}
         [HttpGet]
         [Route("{id:Guid}")] //'id' in attribute MUST match the name of input parameter passed to the method for proper mapping
-        public IActionResult GetRegionBYId([FromRoute] Guid id)
+        public IActionResult GetById([FromRoute] Guid id)
         {
             //Get Region Domain Model from the db
 
@@ -86,10 +86,40 @@ namespace NZWalks.API.Controllers
         //Action method to create a new region
         // POST: https://localhost:portnumber/api/regions
         [HttpPost]
-        public IActionResult Create()
+        //[FRomBody] in parameter because in the post method we receive the body from the client
+        public IActionResult Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
         {
             //we want 3 pieces of info from the client: Name, Code and Image URL. We do not want an ID because it will be created by the app internally
-            //so now we want to craete a DTO for this purpose with just needed 3 properties to get info from the client and then map it to the domain model
+            //so now we want to create a DTO (AddRegionRequestDto) for this purpose with just needed 3 properties to get info from the client and then map it to the domain model
+
+            // Map/Convert DTO to Domain Model
+            //Let's create a domain model
+
+            var regionDomainModel = new Region()
+            {
+                //here we have 3 properties to map
+                Code = addRegionRequestDto.Code,
+                Name = addRegionRequestDto.Name,
+                RegionImageUrl= addRegionRequestDto.RegionImageUrl
+            };
+
+            //Use Domain Model to create Region, use dbContext to add new region to the db
+            dbContext.Regions.Add(regionDomainModel); //if we execute this line, a new region is NOT added to the db
+            //save the new region to the db
+            dbContext.SaveChanges(); //at this line new region is saved to the db and the changes will be reflected in the SQL Server
+
+            //Map Domain Model back to DTO (=we cannot send Domain Model to the client< need to convert back to DTO first)
+            var regionDto = new RegionDto
+            {
+                //now we have to map 4 properties because Id was created by EF
+                Id = regionDomainModel.Id,
+                Code = regionDomainModel.Code,
+                Name = regionDomainModel.Name,
+                RegionImageUrl = regionDomainModel.RegionImageUrl
+            };
+
+            //for post method we need to return 201
+            return CreatedAtAction(nameof(GetById), new {id = regionDto.Id}, regionDto);
         }
     }
 }
