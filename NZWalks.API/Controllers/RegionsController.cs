@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 
 namespace NZWalks.API.Controllers
@@ -11,31 +12,19 @@ namespace NZWalks.API.Controllers
 
     public class RegionsController : ControllerBase
     {
-        //create action methods
+        //we already injected db context in Program.cs so we can now use db context here as well through constructor injection
+        private readonly NZWalksDbContext dbContext;
+        public RegionsController(NZWalksDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
 
-        //Method to return all regions
+        //Action method to return all regions
         // GET: https://localhost:portnumber/api/regions (RESTful URL)
         [HttpGet]
         public IActionResult GetAll()
         {
-            var regions = new List<Region>
-            {
-                new Region
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Auckland Region",
-                    Code = "AKL",
-                    RegionImageUrl = "https://www.pexels.com/photo/silhouetted-couple-exploring-piha-archway-29249172/"
-                },
-                new Region
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Wellington Region",
-                    Code = "WLG",
-                    RegionImageUrl = "https://www.pexels.com/photo/brown-hanging-bridge-surrounded-by-trees-403781/"
-                }
-            };
-
+            var regions = dbContext.Regions.ToList(); //getting data from the db
             return Ok(regions);
         }
     }
