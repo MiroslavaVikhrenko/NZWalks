@@ -88,7 +88,7 @@ namespace NZWalks.API.Controllers
         // POST: https://localhost:portnumber/api/regions
         [HttpPost]
         //[FRomBody] in parameter because in the post method we receive the body from the client
-        public IActionResult Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
+        public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
         {
             //we want 3 pieces of info from the client: Name, Code and Image URL. We do not want an ID because it will be created by the app internally
             //so now we want to create a DTO (AddRegionRequestDto) for this purpose with just needed 3 properties to get info from the client and then map it to the domain model
@@ -105,9 +105,9 @@ namespace NZWalks.API.Controllers
             };
 
             //Use Domain Model to create Region, use dbContext to add new region to the db
-            dbContext.Regions.Add(regionDomainModel); //if we execute this line, a new region is NOT added to the db
+            await dbContext.Regions.AddAsync(regionDomainModel); //if we execute this line, a new region is NOT added to the db
             //save the new region to the db
-            dbContext.SaveChanges(); //at this line new region is saved to the db and the changes will be reflected in the SQL Server
+            await dbContext.SaveChangesAsync(); //at this line new region is saved to the db and the changes will be reflected in the SQL Server
 
             //Map Domain Model back to DTO (=we cannot send Domain Model to the client< need to convert back to DTO first)
             var regionDto = new RegionDto
