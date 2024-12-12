@@ -34,7 +34,13 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")] //'id' in attribute MUST match the name of input parameter passed to the method for proper mapping
         public IActionResult GetRegionBYId([FromRoute] Guid id)
         {
-            var region = dbContext.Regions.Find(id); //find will take the primary key (=id)
+            //First option using dbContext.Regions.Find(id)
+            //the Find() method only takes the primary key (=id) => you cannot use other properties like Name/Code/etc
+            /*var region = dbContext.Regions.Find(id);*/ //find will take the primary key (=id)
+
+            //Second option using dbContext.Regions.FirstOrDefault(x => x.Id == id)
+            //you can do this for id or using other properties (Name, Code, etc) BUT only if you are passing those in the route
+            var region = dbContext.Regions.FirstOrDefault(x => x.Id == id); 
 
             if (region == null)
             {
