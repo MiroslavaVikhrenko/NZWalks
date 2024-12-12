@@ -121,5 +121,14 @@ namespace NZWalks.API.Controllers
             //for post method we need to return 201
             return CreatedAtAction(nameof(GetById), new {id = regionDto.Id}, regionDto);
         }
+
+        //Action method to update a region
+        // PUT: https://localhost:portnumber/api/regions/{id}
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody]) //[FromBody] for DTO
+        {
+
+        }
     }
 }
