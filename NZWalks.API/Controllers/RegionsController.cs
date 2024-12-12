@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
@@ -23,10 +24,10 @@ namespace NZWalks.API.Controllers
         //Action method to return all regions
         // GET: https://localhost:portnumber/api/regions (RESTful URL)
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             //Get data from the db = Domain Models
-            var regionsDomain = dbContext.Regions.ToList(); 
+            var regionsDomain = await dbContext.Regions.ToListAsync(); //ToListAsync() method comes from Microsoft.EntityFrameworkCore
 
             //Map Domain Models to DTOs - convert Domain Model to DTO which is also a list
             var regionsDto = new List<RegionDto>();
