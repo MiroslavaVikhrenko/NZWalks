@@ -48,7 +48,7 @@ namespace NZWalks.API.Controllers
             return Ok(regionsDto);
         }
 
-        //Action method to return a single region by Id
+        
         // GET: https://localhost:portnumber/api/regions/{id}
         [HttpGet]
         [Route("{id:Guid}")] //'id' in attribute MUST match the name of input parameter passed to the method for proper mapping
@@ -81,6 +81,15 @@ namespace NZWalks.API.Controllers
 
             //return DTO back to the client
             return Ok(regionDto); 
+        }
+
+        //Action method to create a new region
+        // POST: https://localhost:portnumber/api/regions
+        [HttpPost]
+        public IActionResult Create()
+        {
+            //we want 3 pieces of info from the client: Name, Code and Image URL. We do not want an ID because it will be created by the app internally
+            //so now we want to craete a DTO for this purpose with just needed 3 properties to get info from the client and then map it to the domain model
         }
     }
 }
