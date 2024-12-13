@@ -51,13 +51,6 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             //Get Region Domain Model from the db
-
-            //First option using dbContext.Regions.Find(id)
-            //the Find() method only takes the primary key (=id) => you cannot use other properties like Name/Code/etc
-            /*var region = dbContext.Regions.Find(id);*/ //find will take the primary key (=id)
-
-            //Second option using dbContext.Regions.FirstOrDefault(x => x.Id == id)
-            //you can do this for id or using other properties (Name, Code, etc) BUT only if you are passing those in the route
             var regionDomain = await regionRepository.GetByIdAsync(id); //using repository pattern 
 
             if (regionDomain == null)
@@ -65,15 +58,8 @@ namespace NZWalks.API.Controllers
                 return NotFound(); //404
             }
 
-            // Map/Convert Region Domain Model to Region DTO
-            var regionDto = new RegionDto()
-            {
-                //map individual properties
-                Id = regionDomain.Id,
-                Code = regionDomain.Code,
-                Name = regionDomain.Name,
-                RegionImageUrl = regionDomain.RegionImageUrl
-            };
+            // Map Domain Model to DTO 
+            var regionDto = mapper.Map<RegionDto>(regionDomain);
 
             //return DTO back to the client
             return Ok(regionDto); 
