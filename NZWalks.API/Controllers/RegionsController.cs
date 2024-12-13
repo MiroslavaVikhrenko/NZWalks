@@ -16,12 +16,11 @@ namespace NZWalks.API.Controllers
 
     public class RegionsController : ControllerBase
     {
-        //we already injected db context in Program.cs so we can now use db context here as well through constructor injection
         private readonly NZWalksDbContext dbContext;
         private readonly IRegionRepository regionRepository;
         private readonly IMapper mapper;
 
-        //pass IRegionRepository to follow the repository pattern and inject AutoMapper
+        //inject db context, repository, automapper
         public RegionsController(NZWalksDbContext dbContext, IRegionRepository regionRepository, IMapper mapper)
         {
             this.dbContext = dbContext;
@@ -29,7 +28,6 @@ namespace NZWalks.API.Controllers
             this.mapper = mapper;
         }
 
-        //Action method to return all regions
         // GET: https://localhost:portnumber/api/regions (RESTful URL)
         [HttpGet]
         public async Task<IActionResult> GetAll()
@@ -65,17 +63,12 @@ namespace NZWalks.API.Controllers
             return Ok(regionDto); 
         }
 
-        //Action method to create a new region
         // POST: https://localhost:portnumber/api/regions
         [HttpPost]
         //[FRomBody] in parameter because in the post method we receive the body from the client
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
         {
-            //we want 3 pieces of info from the client: Name, Code and Image URL. We do not want an ID because it will be created by the app internally
-            //so now we want to create a DTO (AddRegionRequestDto) for this purpose with just needed 3 properties to get info from the client and then map it to the domain model
-
-            // Map/Convert DTO to Domain Model
-            //Let's create a domain model
+            // Map DTO to Domain Model
 
             var regionDomainModel = new Region()
             {
@@ -84,11 +77,6 @@ namespace NZWalks.API.Controllers
                 Name = addRegionRequestDto.Name,
                 RegionImageUrl= addRegionRequestDto.RegionImageUrl
             };
-
-            //Use Domain Model to create Region, use dbContext to add new region to the db
-            /*await dbContext.Regions.AddAsync(regionDomainModel); *///if we execute this line, a new region is NOT added to the db
-            //save the new region to the db
-            /*await dbContext.SaveChangesAsync();*/ //at this line new region is saved to the db and the changes will be reflected in the SQL Server
 
             //following repository pattern
             regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
@@ -107,7 +95,6 @@ namespace NZWalks.API.Controllers
             return CreatedAtAction(nameof(GetById), new {id = regionDto.Id}, regionDto);
         }
 
-        //Action method to update a region
         // PUT: https://localhost:portnumber/api/regions/{id}
         [HttpPut]
         [Route("{id:Guid}")]
@@ -139,7 +126,6 @@ namespace NZWalks.API.Controllers
             return Ok(regionDto);
         }
 
-        //Action method to delete a region
         // DELETE: https://localhost:portnumber/api/regions/{id}
         [HttpDelete]
         [Route("{id:Guid}")]
