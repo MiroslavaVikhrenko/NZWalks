@@ -32,7 +32,7 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             //Get data from the db = Domain Models
-            var regionsDomain = await regionRepository.GetAllAsync();
+            var regionsDomain = await regionRepository.GetAllAsync(); //using repository pattern 
 
             //Map Domain Models to DTOs - convert Domain Model to DTO which is also a list
             var regionsDto = new List<RegionDto>();
@@ -68,7 +68,7 @@ namespace NZWalks.API.Controllers
 
             //Second option using dbContext.Regions.FirstOrDefault(x => x.Id == id)
             //you can do this for id or using other properties (Name, Code, etc) BUT only if you are passing those in the route
-            var regionDomain = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id); 
+            var regionDomain = await regionRepository.GetById(id); //using repository pattern 
 
             if (regionDomain == null)
             {
