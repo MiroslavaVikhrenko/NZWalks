@@ -46,5 +46,20 @@ namespace NZWalks.API.Repositories
 
             return existingRegion;
         }
+
+        public async Task<Region?> DeleteAsync(Guid id)
+        {
+            var existingRegion = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingRegion == null)
+            {
+                return null;
+            }
+
+            dbContext.Regions.Remove(existingRegion); //it's NOT an async method => we can't use await here
+            await dbContext.SaveChangesAsync(); //save changes to the db
+
+            return existingRegion;
+        }
     }
 }
