@@ -32,7 +32,7 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             //Get data from the db = Domain Models
-            var regionsDomain = await dbContext.Regions.ToListAsync(); //ToListAsync() method comes from Microsoft.EntityFrameworkCore
+            var regionsDomain = await regionRepository.GetAllAsync();
 
             //Map Domain Models to DTOs - convert Domain Model to DTO which is also a list
             var regionsDto = new List<RegionDto>();
