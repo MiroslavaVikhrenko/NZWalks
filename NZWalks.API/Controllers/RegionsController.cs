@@ -118,13 +118,7 @@ namespace NZWalks.API.Controllers
             }
 
             //optionally we can return the deleted region back - in this case we would need to map the domain model to dto
-            var regionDto = new RegionDto
-            {
-                Id = regionDomainModel.Id,
-                Code = regionDomainModel.Code,
-                Name = regionDomainModel.Name,
-                RegionImageUrl = regionDomainModel.RegionImageUrl
-            };
+            var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
 
             return Ok(regionDto); //but we can alternative respond with empty Ok();
         }
