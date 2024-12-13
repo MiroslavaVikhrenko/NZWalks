@@ -10,5 +10,6 @@ namespace NZWalks.API.Repositories
 
         Task<Region?> GetByIdAsync(Guid id); //Region can be null
         Task<Region> CreateAsync(Region region);
+        Task<Region?> UpdateAsync(Guid id, Region region); //Region can be null
     }
 }
