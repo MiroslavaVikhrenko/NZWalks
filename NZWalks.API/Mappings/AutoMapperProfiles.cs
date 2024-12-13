@@ -15,6 +15,9 @@ namespace NZWalks.API.Mappings
 
             //Mapping between Region Domain Model and Region DTO (properties' names are the same)
             CreateMap<Region, RegionDto>().ReverseMap();
+
+            //Mapping between Region Domain Model and AddRegionRequest DTO
+            CreateMap<AddRegionRequestDto, Region>().ReverseMap();
         }
     }
 }
