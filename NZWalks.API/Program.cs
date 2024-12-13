@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
+using NZWalks.API.Mappings;
 using NZWalks.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,9 @@ builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 
 //if we want to switch between different data sources using repository pattern we can use this repository injection instead:
 //builder.Services.AddScoped<IRegionRepository, InMemoryRegionRepository>();
+
+//inject Automapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 
