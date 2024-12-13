@@ -169,17 +169,13 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            //first check if this region exists
-            var regionDomainModel = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            //follow repository pattern
+            var regionDomainModel = await regionRepository.DeleteAsync(id);
 
             if (regionDomainModel == null)
             {
                 return NotFound();
             }
-
-            //if such region was found, we will delete it
-            dbContext.Regions.Remove(regionDomainModel); //Remove() method does not have async version
-            await dbContext.SaveChangesAsync(); //to actually delete from db
 
             //optionally we can return the deleted region back - in this case we would need to map the domain model to dto
             var regionDto = new RegionDto
