@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
@@ -18,12 +19,14 @@ namespace NZWalks.API.Controllers
         //we already injected db context in Program.cs so we can now use db context here as well through constructor injection
         private readonly NZWalksDbContext dbContext;
         private readonly IRegionRepository regionRepository;
+        private readonly IMapper mapper;
 
-        //pass IRegionRepository to follow the repository pattern
-        public RegionsController(NZWalksDbContext dbContext, IRegionRepository regionRepository)
+        //pass IRegionRepository to follow the repository pattern and inject AutoMapper
+        public RegionsController(NZWalksDbContext dbContext, IRegionRepository regionRepository, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.regionRepository = regionRepository;
+            this.mapper = mapper;
         }
 
         //Action method to return all regions
