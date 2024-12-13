@@ -57,7 +57,7 @@ namespace NZWalks.API.Controllers
             }
 
             // Map Domain Model to DTO 
-            var regionDto = mapper.Map<RegionDto>(regionDomain);
+            var regionDto = mapper.Map<RegionDto>(regionDomain); //using AutoMapper
 
             //return DTO back to the client
             return Ok(regionDto); 
@@ -70,26 +70,13 @@ namespace NZWalks.API.Controllers
         {
             // Map DTO to Domain Model
 
-            var regionDomainModel = new Region()
-            {
-                //here we have 3 properties to map
-                Code = addRegionRequestDto.Code,
-                Name = addRegionRequestDto.Name,
-                RegionImageUrl= addRegionRequestDto.RegionImageUrl
-            };
+            var regionDomainModel = mapper.Map<Region>(addRegionRequestDto); //using AutoMapper
 
             //following repository pattern
-            regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
+            regionDomainModel = await regionRepository.CreateAsync(regionDomainModel); //using repository pattern 
 
-            //Map Domain Model back to DTO (=we cannot send Domain Model to the client< need to convert back to DTO first)
-            var regionDto = new RegionDto
-            {
-                //now we have to map 4 properties because Id was created by EF
-                Id = regionDomainModel.Id,
-                Code = regionDomainModel.Code,
-                Name = regionDomainModel.Name,
-                RegionImageUrl = regionDomainModel.RegionImageUrl
-            };
+            //Map Domain Model back to DTO 
+            var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
 
             //for post method we need to return 201
             return CreatedAtAction(nameof(GetById), new {id = regionDto.Id}, regionDto);
