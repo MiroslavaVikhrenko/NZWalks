@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Data;
+using NZWalks.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,11 @@ builder.Services.AddSwaggerGen();
 //builder.Services collection
 //options.UseSqlServer from Microsoft.EntityFrameworkCore, passing the connection string from appsettings.json
 
-
 builder.Services.AddDbContext<NZWalksDbContext>(options => 
-options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString"))); 
+options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")));
+
+//Inject Repository (add scoped which will be the lifetime) - pass both interface and concrete implementation of SQLRegionRepository
+builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 
 var app = builder.Build();
 
