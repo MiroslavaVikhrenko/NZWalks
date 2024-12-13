@@ -110,9 +110,12 @@ namespace NZWalks.API.Controllers
             };
 
             //Use Domain Model to create Region, use dbContext to add new region to the db
-            await dbContext.Regions.AddAsync(regionDomainModel); //if we execute this line, a new region is NOT added to the db
+            /*await dbContext.Regions.AddAsync(regionDomainModel); *///if we execute this line, a new region is NOT added to the db
             //save the new region to the db
-            await dbContext.SaveChangesAsync(); //at this line new region is saved to the db and the changes will be reflected in the SQL Server
+            /*await dbContext.SaveChangesAsync();*/ //at this line new region is saved to the db and the changes will be reflected in the SQL Server
+
+            //following repository pattern
+            regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
 
             //Map Domain Model back to DTO (=we cannot send Domain Model to the client< need to convert back to DTO first)
             var regionDto = new RegionDto
