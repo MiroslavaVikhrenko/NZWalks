@@ -1,4 +1,5 @@
 ﻿using NZWalks.API.Models.Domain;
+using System.Runtime.InteropServices;
 
 namespace NZWalks.API.Repositories
 {
@@ -8,5 +9,6 @@ namespace NZWalks.API.Repositories
         Task<List<Region>> GetAllAsync(); //returns a list of region domain models
 
         Task<Region?> GetById(Guid id); //Region can be null
+        Task<Region> Create(Region region);
     }
 }
