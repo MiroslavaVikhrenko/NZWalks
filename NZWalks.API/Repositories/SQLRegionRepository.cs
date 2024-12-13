@@ -16,5 +16,10 @@ namespace NZWalks.API.Repositories
         {
             return await dbContext.Regions.ToListAsync();
         }
+
+        public async Task<Region?> GetById(Guid id)
+        {
+            return await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }
