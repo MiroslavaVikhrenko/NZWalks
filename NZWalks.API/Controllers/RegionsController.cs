@@ -137,21 +137,19 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto) 
         {
-            //use id to fist check if the region exists - as we check by id we can use either Find() or FirstOrDefault()
-            var regionDomainModel = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            //Map DTO to Domain Model
+            var regionDomainModel = new Region
+            {
+                Code = updateRegionRequestDto.Code,
+                Name = updateRegionRequestDto.Name,
+                RegionImageUrl = updateRegionRequestDto.RegionImageUrl
+            };
+            regionDomainModel = await regionRepository.UpdateAsync(id, regionDomainModel); //following repository pattern
 
             if (regionDomainModel == null)
             {
                 return NotFound();
             }
-
-            //Update Domain Model with vaues from received DTO 
-            regionDomainModel.Code = updateRegionRequestDto.Code;
-            regionDomainModel.Name = updateRegionRequestDto.Name;
-            regionDomainModel.RegionImageUrl = updateRegionRequestDto.RegionImageUrl;
-
-            //save changes to db
-            await dbContext.SaveChangesAsync();
 
             //convert Domain Model to DTO
             var regionDto = new RegionDto
