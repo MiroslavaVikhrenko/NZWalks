@@ -11,5 +11,8 @@
         //properties that set relations between this model and the others:
         public Guid DifficultyId { get; set; }
         public Guid RegionId { get; set; }
+
+        //include navigation properties' info
+        public RegionDto Region { get; set; }
     }
 }
