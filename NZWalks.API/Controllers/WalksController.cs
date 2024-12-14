@@ -8,5 +8,12 @@ namespace NZWalks.API.Controllers
     [ApiController]
     public class WalksController : ControllerBase
     {
+        //CREATE Walk
+        //POST: /api/walks
+        [HttpPost]
+        public async Task<IActionResult> Create()
+        {
+
+        }
     }
 }
