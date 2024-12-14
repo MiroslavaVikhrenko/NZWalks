@@ -6,6 +6,7 @@ namespace NZWalks.API.Repositories
     {
         //definitions of the methods
         Task<Walk> CreateAsync(Walk walk); //repositories use domain models
-        Task<List<Walk>> GetAllAsync(); 
+        Task<List<Walk>> GetAllAsync();
+        Task<Walk?> GetByIdAsync(Guid id); //Walk could be null (whether this walk is present in the db or not)
     }
 }
