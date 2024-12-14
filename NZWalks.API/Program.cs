@@ -19,8 +19,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NZWalksDbContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")));
 
-//Inject Repository (add scoped which will be the lifetime) - pass both interface and concrete implementation of SQLRegionRepository
+//Inject interface IRegionRepository and concrete implementation SQLRegionRepository
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+//Inject interface IWalkRepository and concrete implementation SQLWalkRepository
+builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 
 //if we want to switch between different data sources using repository pattern we can use this repository injection instead:
 //builder.Services.AddScoped<IRegionRepository, InMemoryRegionRepository>();
