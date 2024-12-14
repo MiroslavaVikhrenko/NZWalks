@@ -24,6 +24,9 @@ namespace NZWalks.API.Mappings
 
             //Mapping between Walk Domain Model and AddWalkRequest DTO
             CreateMap<AddWalkRequestDto, Walk>().ReverseMap();
+
+            //Mapping between Walk Domain Model and Walk DTO
+            CreateMap<Walk, WalkDto>().ReverseMap();
         }
     }
 }
