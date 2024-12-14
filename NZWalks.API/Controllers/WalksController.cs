@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
+using NZWalks.API.Repositories;
 
 namespace NZWalks.API.Controllers
 {
@@ -13,9 +14,12 @@ namespace NZWalks.API.Controllers
     {
         //injections
         private readonly IMapper mapper;
-        public WalksController(IMapper mapper)
+        private readonly IWalkRepository walkRepository;
+
+        public WalksController(IMapper mapper, IWalkRepository walkRepository)
         {
             this.mapper = mapper;
+            this.walkRepository = walkRepository;
         }
 
         //CREATE Walk
