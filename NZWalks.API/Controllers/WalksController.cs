@@ -33,7 +33,7 @@ namespace NZWalks.API.Controllers
             await walkRepository.CreateAsync(walkDomainModel);
 
             //Map Domain Model for DTO
-            return Ok(mapper.Map<WalkDto>(walkDomainModel)); 
+            return Ok(mapper.Map<WalkDto>(walkDomainModel));
         }
 
         //GET Walks
@@ -45,6 +45,15 @@ namespace NZWalks.API.Controllers
 
             //Map Domain Model to DTO
             return Ok(mapper.Map<List<WalkDto>>(walksDomainModel));
+        }
+
+        //GET Walk By Id
+        //GET: /api/walks/{id}
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        {
+
         }
     }
 }
