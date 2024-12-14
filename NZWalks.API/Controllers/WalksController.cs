@@ -33,7 +33,7 @@ namespace NZWalks.API.Controllers
             await walkRepository.CreateAsync(walkDomainModel);
 
             //Map Domain Model for DTO
-            return Ok(walkDomainModel); //for now, we will change it soon
+            return Ok(mapper.Map<WalkDto>(walkDomainModel)); 
         }
     }
 }
