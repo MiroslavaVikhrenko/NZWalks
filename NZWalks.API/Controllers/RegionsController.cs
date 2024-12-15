@@ -68,18 +68,24 @@ namespace NZWalks.API.Controllers
         //[FRomBody] in parameter because in the post method we receive the body from the client
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
         {
-            // Map DTO to Domain Model
+            if (ModelState.IsValid)
+            {
+                // Map DTO to Domain Model
+                var regionDomainModel = mapper.Map<Region>(addRegionRequestDto); //using AutoMapper
 
-            var regionDomainModel = mapper.Map<Region>(addRegionRequestDto); //using AutoMapper
+                //following repository pattern
+                regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
 
-            //following repository pattern
-            regionDomainModel = await regionRepository.CreateAsync(regionDomainModel); 
+                //Map Domain Model back to DTO 
+                var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
 
-            //Map Domain Model back to DTO 
-            var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
-
-            //for post method we need to return 201
-            return CreatedAtAction(nameof(GetById), new {id = regionDto.Id}, regionDto);
+                //for post method we need to return 201
+                return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         // PUT: https://localhost:portnumber/api/regions/{id}
