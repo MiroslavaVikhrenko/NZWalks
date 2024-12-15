@@ -70,6 +70,7 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult> Update([FromRoute] Guid id, UpdateRegionRequestDto updateRegionRequestDto)
         {
             //Map DTO to Domain Model
+            var walkDomainModel = mapper.Map<Walk>(updateRegionRequestDto);
         }
     }
 }
