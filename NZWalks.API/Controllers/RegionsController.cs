@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NZWalks.API.CustomActionFilters;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
@@ -65,56 +66,44 @@ namespace NZWalks.API.Controllers
 
         // POST: https://localhost:portnumber/api/regions
         [HttpPost]
+        [ValidateModel]
         //[FromBody] in parameter because in the post method we receive the body from the client
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
         {
-            if (ModelState.IsValid)
-            {
-                // Map DTO to Domain Model
-                var regionDomainModel = mapper.Map<Region>(addRegionRequestDto); //using AutoMapper
+            // Map DTO to Domain Model
+            var regionDomainModel = mapper.Map<Region>(addRegionRequestDto); //using AutoMapper
 
-                //following repository pattern
-                regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
+            //following repository pattern
+            regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
 
-                //Map Domain Model back to DTO 
-                var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
+            //Map Domain Model back to DTO 
+            var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
 
-                //for post method we need to return 201
-                return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            //for post method we need to return 201
+            return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
         }
 
         // PUT: https://localhost:portnumber/api/regions/{id}
         [HttpPut]
         [Route("{id:Guid}")]
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto) 
         {
-            if (ModelState.IsValid)
+            //Map DTO to Domain Model
+            var regionDomainModel = mapper.Map<Region>(updateRegionRequestDto); //using AutoMapper
+
+            //following repository pattern
+            regionDomainModel = await regionRepository.UpdateAsync(id, regionDomainModel);
+
+            if (regionDomainModel == null)
             {
-                //Map DTO to Domain Model
-                var regionDomainModel = mapper.Map<Region>(updateRegionRequestDto); //using AutoMapper
-
-                //following repository pattern
-                regionDomainModel = await regionRepository.UpdateAsync(id, regionDomainModel);
-
-                if (regionDomainModel == null)
-                {
-                    return NotFound();
-                }
-
-                //convert Domain Model to DTO
-                var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
-
-                return Ok(regionDto);
+                return NotFound();
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+
+            //convert Domain Model to DTO
+            var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
+
+            return Ok(regionDto);
 
         }
 
