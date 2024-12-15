@@ -19,7 +19,7 @@ namespace NZWalks.API.Repositories
             return walk;
         }
 
-        public async Task<List<Walk>> GetAllAsync()
+        public async Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null)
         {
             //Use Include() method for navigation properties
             return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
