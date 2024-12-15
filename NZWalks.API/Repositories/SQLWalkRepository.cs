@@ -21,8 +21,24 @@ namespace NZWalks.API.Repositories
 
         public async Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null)
         {
+            //Retrieve walks as queryable using AsQueryable() method (returns IQueryable<Walk>? instead of a list)
+            //=> this we can use to apply filtering and sorting
+            var walks = dbContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
+
+            //Filtering
+            if (string.IsNullOrWhiteSpace(filterOn) == false && string.IsNullOrWhiteSpace(filterQuery) == false)
+            {
+                if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
+                {
+                    walks = walks.Where(x => x.Name.Contains(filterQuery));
+                }             
+            }
+
+            return await walks.ToListAsync();
+
+            //PREVIOUS VERSION
             //Use Include() method for navigation properties
-            return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
+            //return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
             //alternative type-safe way: Include(x => x.Difficulty) 
         }
 
