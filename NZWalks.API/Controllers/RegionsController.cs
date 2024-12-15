@@ -65,7 +65,7 @@ namespace NZWalks.API.Controllers
 
         // POST: https://localhost:portnumber/api/regions
         [HttpPost]
-        //[FRomBody] in parameter because in the post method we receive the body from the client
+        //[FromBody] in parameter because in the post method we receive the body from the client
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
         {
             if (ModelState.IsValid)
@@ -93,21 +93,29 @@ namespace NZWalks.API.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto) 
         {
-            //Map DTO to Domain Model
-            var regionDomainModel = mapper.Map<Region>(updateRegionRequestDto); //using AutoMapper
-
-            //following repository pattern
-            regionDomainModel = await regionRepository.UpdateAsync(id, regionDomainModel); 
-
-            if (regionDomainModel == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                //Map DTO to Domain Model
+                var regionDomainModel = mapper.Map<Region>(updateRegionRequestDto); //using AutoMapper
+
+                //following repository pattern
+                regionDomainModel = await regionRepository.UpdateAsync(id, regionDomainModel);
+
+                if (regionDomainModel == null)
+                {
+                    return NotFound();
+                }
+
+                //convert Domain Model to DTO
+                var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
+
+                return Ok(regionDto);
+            }
+            else
+            {
+                return BadRequest(ModelState);
             }
 
-            //convert Domain Model to DTO
-            var regionDto = mapper.Map<RegionDto>(regionDomainModel); //using AutoMapper
-
-            return Ok(regionDto);
         }
 
         // DELETE: https://localhost:portnumber/api/regions/{id}
