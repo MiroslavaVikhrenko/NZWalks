@@ -67,9 +67,9 @@ namespace NZWalks.API.Controllers
         //PUT: /api/walks/{id}
         [HttpPut]
         [Route("{id:Guid}")]
-        public async Task<IActionResult> Update([FromRoute] Guid id)
+        public async Task<IActionResult> Update([FromRoute] Guid id, UpdateRegionRequestDto updateRegionRequestDto)
         {
-
+            //Map DTO to Domain Model
         }
     }
 }
