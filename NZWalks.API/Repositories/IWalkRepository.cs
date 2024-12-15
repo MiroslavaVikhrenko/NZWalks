@@ -9,5 +9,6 @@ namespace NZWalks.API.Repositories
         Task<List<Walk>> GetAllAsync();
         Task<Walk?> GetByIdAsync(Guid id); //Walk could be null (whether this walk is present in the db or not)
         Task<Walk?> UpdateAsync(Guid id, Walk walk); //Walk is nullable
+        Task<Walk?> DeleteAsync(Guid id); //Walk is nullable
     }
 }
