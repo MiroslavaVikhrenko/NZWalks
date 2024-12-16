@@ -30,6 +30,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksAuthConne
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 //Inject interface IWalkRepository and concrete implementation SQLWalkRepository
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
+//Inject interface ITokenRepository and concrete implementation TokenRepository
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 //if we want to switch between different data sources using repository pattern we can use this repository injection instead:
 //builder.Services.AddScoped<IRegionRepository, InMemoryRegionRepository>();
