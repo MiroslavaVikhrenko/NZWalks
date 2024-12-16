@@ -5,7 +5,7 @@ namespace NZWalks.API.Data
 {
     public class NZWalksAuthDbContext : IdentityDbContext //Microsoft.AspNetCore.Identity.EntityFrameworkCore
     {
-        public NZWalksAuthDbContext(DbContextOptions options) : base(options)
+        public NZWalksAuthDbContext(DbContextOptions<NZWalksAuthDbContext> options) : base(options)
         {
             //
         }

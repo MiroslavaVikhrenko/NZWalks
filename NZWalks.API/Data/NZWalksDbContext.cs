@@ -6,7 +6,7 @@ namespace NZWalks.API.Data
     public class NZWalksDbContext : DbContext //from Microsoft.EntityFrameworkCore
     {
         //pass db options as parameter to a constructor because later we want to send our own connections through the Program.cs file
-        public NZWalksDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions) 
+        public NZWalksDbContext(DbContextOptions<NZWalksDbContext> dbContextOptions) : base(dbContextOptions) 
         {
             
         }
