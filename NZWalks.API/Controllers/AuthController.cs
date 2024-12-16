@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Models.DTO;
+using NZWalks.API.Repositories;
 
 namespace NZWalks.API.Controllers
 {
@@ -9,11 +10,14 @@ namespace NZWalks.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        //we need to ingect UserManager class (from Microsoft.AspNetCore.Identity)
-        private readonly UserManager<IdentityUser> userManager;       
-        public AuthController(UserManager<IdentityUser> userManager)
+        //Inject UserManager class (from Microsoft.AspNetCore.Identity), ITokenRepository
+        private readonly UserManager<IdentityUser> userManager;
+        private readonly ITokenRepository tokenRepository;
+
+        public AuthController(UserManager<IdentityUser> userManager, ITokenRepository tokenRepository)
         {
             this.userManager = userManager;
+            this.tokenRepository = tokenRepository;
         }
         //POST: /api/Auth/Register
         [HttpPost]
