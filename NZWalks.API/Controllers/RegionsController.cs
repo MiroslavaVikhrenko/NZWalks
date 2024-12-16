@@ -15,7 +15,6 @@ namespace NZWalks.API.Controllers
     [Route("api/[controller]")] //defining the route whenever a user enters this route along with the app URL,
                                 //it will be pointed to the RegionsController
     [ApiController] //<= This attribute will tell the app that this controller is for API use
-    [Authorize] //Microsoft.AspNetCore.Authorization
 
     public class RegionsController : ControllerBase
     {
@@ -33,6 +32,7 @@ namespace NZWalks.API.Controllers
 
         // GET: https://localhost:portnumber/api/regions (RESTful URL)
         [HttpGet]
+        [Authorize] //Microsoft.AspNetCore.Authorization
         public async Task<IActionResult> GetAll()
         {
             //Get data from the db = Domain Models
@@ -49,6 +49,7 @@ namespace NZWalks.API.Controllers
         // GET: https://localhost:portnumber/api/regions/{id}
         [HttpGet]
         [Route("{id:Guid}")] //'id' in attribute MUST match the name of input parameter passed to the method for proper mapping
+        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             //Get Region Domain Model from the db following repository pattern
@@ -69,6 +70,7 @@ namespace NZWalks.API.Controllers
         // POST: https://localhost:portnumber/api/regions
         [HttpPost]
         [ValidateModel]
+        [Authorize]
         //[FromBody] in parameter because in the post method we receive the body from the client
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
         {
@@ -89,6 +91,7 @@ namespace NZWalks.API.Controllers
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto) 
         {
             //Map DTO to Domain Model
@@ -112,6 +115,7 @@ namespace NZWalks.API.Controllers
         // DELETE: https://localhost:portnumber/api/regions/{id}
         [HttpDelete]
         [Route("{id:Guid}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             //follow repository pattern
