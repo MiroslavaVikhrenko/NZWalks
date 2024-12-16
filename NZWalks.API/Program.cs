@@ -5,6 +5,7 @@ using NZWalks.API.Mappings;
 using NZWalks.API.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,15 @@ builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 
 //inject Automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+
+//add the identity to the solution - IdentityUser comes from Microsoft.AspNetCore.Identity
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("NZWalks")
+    .AddEntityFrameworkStores<NZWalksAuthDbContext>()
+    .AddDefaultTokenProviders();
+
+//set up identity options
 
 //add authentication (Microsoft.AspNetCore.Authentication.JwtBearer)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
