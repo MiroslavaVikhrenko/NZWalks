@@ -60,8 +60,15 @@ namespace NZWalks.API.Controllers
                 var checkPasswordResult = await userManager.CheckPasswordAsync(user, loginRequestDto.Password);
                 if (checkPasswordResult)
                 {
-                    //Create a token
-                    return Ok();
+                    //Get roles for this user - roles is a type of IList<string> and it's nullable
+                    var roles = await userManager.GetRolesAsync(user);
+
+                    if (roles != null)
+                    {
+                        //Create a token
+                        var jwtToken = tokenRepository.CreateJWTToken(user, roles.ToList());
+                        return Ok(jwtToken);
+                    }                   
                 }
             }
             return BadRequest("Username or password incorrect");
