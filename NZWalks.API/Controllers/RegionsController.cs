@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace NZWalks.API.Controllers
     [Route("api/[controller]")] //defining the route whenever a user enters this route along with the app URL,
                                 //it will be pointed to the RegionsController
     [ApiController] //<= This attribute will tell the app that this controller is for API use
+    [Authorize] //Microsoft.AspNetCore.Authorization
 
     public class RegionsController : ControllerBase
     {
