@@ -30,7 +30,17 @@ namespace NZWalks.API.Controllers
             if (identityResult.Succeeded)
             {
                 //Add roles to this User
+                if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
+                {
+                    identityResult = await userManager.AddToRolesAsync(identityUser, registerRequestDto.Roles);
+
+                    if (identityResult.Succeeded)
+                    {
+                        return Ok("User was registered. Please login.");
+                    }
+                }               
             }
+            return BadRequest("Something went wrong.");
         }
     }
 }
