@@ -45,6 +45,15 @@ builder.Services.AddIdentityCore<IdentityUser>()
     .AddDefaultTokenProviders();
 
 //set up identity options
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+});
 
 //add authentication (Microsoft.AspNetCore.Authentication.JwtBearer)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
