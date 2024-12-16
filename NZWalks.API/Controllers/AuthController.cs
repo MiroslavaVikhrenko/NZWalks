@@ -67,7 +67,12 @@ namespace NZWalks.API.Controllers
                     {
                         //Create a token
                         var jwtToken = tokenRepository.CreateJWTToken(user, roles.ToList());
-                        return Ok(jwtToken);
+
+                        var response = new LoginResponseDto
+                        {
+                            JwtToken = jwtToken
+                        };
+                        return Ok(response);
                     }                   
                 }
             }
