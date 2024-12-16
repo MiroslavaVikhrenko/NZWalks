@@ -20,7 +20,8 @@ namespace NZWalks.API.Repositories
         }
 
         public async Task<List<Walk>> GetAllAsync(string? filterOn = null, string? filterQuery = null,
-            string? sortBy = null, bool isAscending = true)
+            string? sortBy = null, bool isAscending = true,
+            int pageNumber = 1, int pageSize = 1000)
         {
             //Retrieve walks as queryable using AsQueryable() method (returns IQueryable<Walk>? instead of a list)
             //=> this we can use to apply filtering and sorting
@@ -48,7 +49,10 @@ namespace NZWalks.API.Repositories
                 }
             }
 
-            return await walks.ToListAsync();
+            //Pagination
+            var skipResults = (pageNumber - 1) * pageSize;
+
+            return await walks.Skip(skipResults).Take(pageSize).ToListAsync();
 
             //PREVIOUS VERSION
             //Use Include() method for navigation properties
