@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,10 +119,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//add authorization to the middleware pipeline
+//add authentication and authorization to the middleware pipeline
 app.UseAuthentication();
-
 app.UseAuthorization();
+//add a middleware for serving static files
+app.UseStaticFiles(new StaticFileOptions
+{
+    //physical file provider in pur case
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Images")),
+    //request path
+    RequestPath = "/Images" //whenever we go to https://localhost:1234/Images we are able to redirect to this physical path ('Images' folder)
+});
 
 app.MapControllers();
 
