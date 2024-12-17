@@ -14,6 +14,14 @@ namespace NZWalks.API.Controllers
         public async Task<IActionResult> Upload([FromForm] ImageUploadRequestDto request)
         {
             //Validate if this request is correct or not
+            ValidateFileUpload(request);
+
+            if (ModelState.IsValid)
+            {
+                //Use Repository to upload image
+            }
+
+            return BadRequest(ModelState);
         }
 
         private void ValidateFileUpload(ImageUploadRequestDto request)
