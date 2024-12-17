@@ -38,6 +38,9 @@ namespace NZWalks.API.Controllers
                 };
 
                 //Use Repository to upload image
+                await imageRepository.Upload(imageDomainModel);
+
+                return Ok(imageDomainModel);
             }
 
             return BadRequest(ModelState);
