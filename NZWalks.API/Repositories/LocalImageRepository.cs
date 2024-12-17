@@ -8,9 +8,14 @@ namespace NZWalks.API.Repositories
     {
         //Inject IWebHostEnvironment - to work with a local path variable in Upload()
         private readonly IWebHostEnvironment webHostEnvironment;
-        public LocalImageRepository(IWebHostEnvironment webHostEnvironment)
+        //Inject IHttpContextAccessor - to create a variable or path to the image that we upload
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        public LocalImageRepository(IWebHostEnvironment webHostEnvironment,
+            IHttpContextAccessor httpContextAccessor)
         {
             this.webHostEnvironment = webHostEnvironment;
+            this.httpContextAccessor = httpContextAccessor;
         }
         public async Task<Image> Upload(Image image)
         {

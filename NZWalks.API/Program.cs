@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-//Inject AddHttpContextAccessor for Image Upload functionality in repository
+//Inject IHttpContextAccessor for Image Upload functionality in repository
 builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
