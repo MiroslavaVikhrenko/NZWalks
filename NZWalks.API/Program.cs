@@ -65,6 +65,8 @@ builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 //Inject interface ITokenRepository and concrete implementation TokenRepository
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+//Inject interface IImageRepository and concrete implementation LocalImageRepository
+builder.Services.AddScoped<IImageRepository, LocalImageRepository>();
 
 //if we want to switch between different data sources using repository pattern we can use this repository injection instead:
 //builder.Services.AddScoped<IRegionRepository, InMemoryRegionRepository>();
