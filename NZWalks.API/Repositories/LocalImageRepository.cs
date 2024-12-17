@@ -29,7 +29,7 @@ namespace NZWalks.API.Repositories
             //then to "Images" folder, and then it needs the file info (image.FileName)
             //we also need to provide the extension, which isn't part of the name, but it's part of the image domain model (image.FileExtension)
             var localFilePath = Path.Combine(webHostEnvironment.ContentRootPath, "Images", 
-                image.FileName, image.FileExtension);
+                $"{image.FileName}{image.FileExtension}");
 
             //Upload Image to Local Path
             //open a file stream object so that we can copy this file that we are receiving in the form of the IFormFile
