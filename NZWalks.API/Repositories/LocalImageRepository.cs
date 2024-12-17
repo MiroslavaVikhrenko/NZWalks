@@ -51,6 +51,10 @@ namespace NZWalks.API.Repositories
             image.FilePath = urlFilePath;
 
             //save changes to db, add Image to the Images table
+            await dbContext.Images.AddAsync(image);
+            await dbContext.SaveChangesAsync();
+
+            return image;
         }
     }
 }
