@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
 
 namespace NZWalks.API.Controllers
@@ -18,6 +19,16 @@ namespace NZWalks.API.Controllers
 
             if (ModelState.IsValid)
             {
+                //Convert DTO to Domain Model
+                var imageDomainModel = new Image
+                {
+                    File = request.File,
+                    FileExtension = Path.GetExtension(request.File.FileName),
+                    FileSizeInBytes = request.File.Length,
+                    FileName = request.FileName,
+                    FileDescription = request.FileDescription //FilePath will not be here, it will be added in Repository instead
+                };
+
                 //Use Repository to upload image
             }
 
