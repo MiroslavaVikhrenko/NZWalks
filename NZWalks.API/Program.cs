@@ -13,6 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container. (Inject services)
 
 builder.Services.AddControllers();
+
+//Inject AddHttpContextAccessor for Image Upload functionality in repository
+builder.Services.AddHttpContextAccessor();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 //Add authorization to Swagger (options) | OpenApiInfo etc comes from Microsoft.OpenApi.Models
