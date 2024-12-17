@@ -1,4 +1,5 @@
-﻿using NZWalks.API.Models.Domain;
+﻿using NZWalks.API.Data;
+using NZWalks.API.Models.Domain;
 
 namespace NZWalks.API.Repositories
 {
@@ -10,12 +11,16 @@ namespace NZWalks.API.Repositories
         private readonly IWebHostEnvironment webHostEnvironment;
         //Inject IHttpContextAccessor - to create a variable or path to the image that we upload
         private readonly IHttpContextAccessor httpContextAccessor;
+        //Inject NZWalksDbContext - to save changes to the db
+        private readonly NZWalksDbContext dbContext;
 
         public LocalImageRepository(IWebHostEnvironment webHostEnvironment,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            NZWalksDbContext dbContext)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.httpContextAccessor = httpContextAccessor;
+            this.dbContext = dbContext;
         }
         public async Task<Image> Upload(Image image)
         {
