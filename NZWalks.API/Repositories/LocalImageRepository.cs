@@ -36,7 +36,16 @@ namespace NZWalks.API.Repositories
             //For example, we are running our local host
             // https://localhost:1234/images/image.jpg
             //location like this should be able to serve an image
+            //httpContextAccessor.HttpContext.Request.Scheme => http or https 
+            //httpContextAccessor.HttpContext.Request.Host => application url (host)
+            //httpContextAccessor.HttpContext.Request.PathBase => so far this part: https://localhost:1234
+            var urlFilePath = $"{httpContextAccessor.HttpContext.Request.Scheme}://{httpContextAccessor.HttpContext.Request.Host}{httpContextAccessor.HttpContext.Request.PathBase}/Images/{image.FileName}{image.FileExtension}";
+            //this path will be uploaded to the table and returned to the user as well
 
+            //fill the image domain model
+            image.FilePath = urlFilePath;
+
+            //save changes to db, add Image to the Images table
         }
     }
 }
