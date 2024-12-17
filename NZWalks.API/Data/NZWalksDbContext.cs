@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NZWalks.API.Models.Domain;
+using System.Reflection.Metadata.Ecma335;
 
 namespace NZWalks.API.Data
 {
@@ -21,6 +22,7 @@ namespace NZWalks.API.Data
         public DbSet<Difficulty> Difficulties { get; set; }
         public DbSet<Region> Regions{ get; set; }
         public DbSet<Walk> Walks { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         //data seeding through EF Core
         protected override void OnModelCreating(ModelBuilder modelBuilder)
