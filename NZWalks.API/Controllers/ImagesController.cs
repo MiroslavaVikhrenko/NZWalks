@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
+using NZWalks.API.Repositories;
 
 namespace NZWalks.API.Controllers
 {
@@ -9,6 +10,13 @@ namespace NZWalks.API.Controllers
     [ApiController]
     public class ImagesController : ControllerBase
     {
+        //inject IImageRepository
+        private readonly IImageRepository imageRepository;        
+        public ImagesController(IImageRepository imageRepository)
+        {
+            this.imageRepository = imageRepository;
+        }
+
         //POST: /api/Images/Upload
         [HttpPost]
         [Route("Upload")]
