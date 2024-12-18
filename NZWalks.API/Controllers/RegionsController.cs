@@ -38,31 +38,17 @@ namespace NZWalks.API.Controllers
 
         // GET: https://localhost:portnumber/api/regions (RESTful URL)
         [HttpGet]
-        /*[Authorize(Roles = "Reader")]*/ //Microsoft.AspNetCore.Authorization
+        [Authorize(Roles = "Reader")] //Microsoft.AspNetCore.Authorization
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                throw new Exception("This is my custom exception");
-                //Get data from the db = Domain Models
-                var regionsDomain = await regionRepository.GetAllAsync(); //using repository pattern 
+            //Get data from the db = Domain Models
+            var regionsDomain = await regionRepository.GetAllAsync(); //using repository pattern 
 
-                //JsonSerializer comes from System.Text.Json - convert an object to JSON
-                logger.LogInformation($"Finished GetAllRegions request with data: {JsonSerializer.Serialize(regionsDomain)}");
+            //Map Domain Models to DTOs
+            var regionsDto = mapper.Map<List<RegionDto>>(regionsDomain); //using AutoMapper
 
-                //Map Domain Models to DTOs
-                var regionsDto = mapper.Map<List<RegionDto>>(regionsDomain); //using AutoMapper
-
-                //Return DTOs back to the client
-                return Ok(regionsDto);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, ex.Message);
-                throw;
-            }
-
-
+            //Return DTOs back to the client
+            return Ok(regionsDto);
         }
 
         
