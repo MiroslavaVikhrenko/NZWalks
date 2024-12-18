@@ -14,9 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container. (Inject services)
 
-//Inject Serilog for logging - LoggerConfiguration comes from Serilog
+//Inject Serilog for logging - LoggerConfiguration comes from Serilog | rollingInterval - the interval at which logging will roll over to a new file
 var logger = new LoggerConfiguration()
     .WriteTo.Console()
+    .WriteTo.File("Logs/NzWalks_Log.txt", rollingInterval: RollingInterval.Day)
     .MinimumLevel.Warning()
     .CreateLogger();
 
