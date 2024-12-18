@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Inject Serilog for logging - LoggerConfiguration comes from Serilog
 var logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .MinimumLevel.Information()
+    .MinimumLevel.Warning()
     .CreateLogger();
 
 builder.Logging.ClearProviders();
