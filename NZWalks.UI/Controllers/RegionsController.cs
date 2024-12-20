@@ -74,5 +74,11 @@ namespace NZWalks.UI.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            return View();
+        }
     }
 }
