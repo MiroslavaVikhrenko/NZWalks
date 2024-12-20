@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NZWalks.UI.Models;
 using NZWalks.UI.Models.DTO;
 
 namespace NZWalks.UI.Controllers
@@ -45,6 +46,12 @@ namespace NZWalks.UI.Controllers
         public IActionResult Add()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddRegionViewModel model)
+        {
+
         }
     }
 }
