@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NZWalks.UI.Models.DTO;
 
 namespace NZWalks.UI.Controllers
 {
@@ -11,9 +12,28 @@ namespace NZWalks.UI.Controllers
         {
             this.httpClientFactory = httpClientFactory;
         }
-        public IActionResult Index()
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<WalkDto> response = new List<WalkDto>();
+
+            try
+            {
+                var client = httpClientFactory.CreateClient(); 
+
+                var httpResponseMessage = await client.GetAsync("https://localhost:7008/api/walks");
+
+                httpResponseMessage.EnsureSuccessStatusCode();
+
+                response.AddRange(await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<WalkDto>>());
+            }
+            catch (Exception)
+            {
+                //Log the exception
+                throw;
+            }
+            return View(response);
         }
     }
 }
